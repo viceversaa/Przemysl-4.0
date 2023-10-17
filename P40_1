@@ -1,0 +1,64 @@
+import RPi.GPIO as GPIO # biblioteka niezb ę dna do kontrolowania stanu pin ó w
+import time # biblioteka odpowiedzlna za reprezentacj ę czasu
+
+# GPIO.setwarnings ( False ) # ignorowanie ostrze ż e ń
+# GPIO.setmode ( GPIO.BOARD ) # WA Ż NY KROK -- ustawiamy jak ą numeracj ę pin ó wwykorzystamy
+# GPIO.setup (40 , GPIO.OUT ) # Pin 40 ustawiony jako ź rod ł o sygna ł u wyj ś ciowego
+# GPIO.setup (33, GPIO.OUT) #Zółta
+# GPIO.setup (32, GPIO.OUT) #zielona
+
+
+
+# for i in range (0 , 10) : # prosta p ę tla
+#     #czerwony
+#     GPIO.output (33, GPIO.LOW)
+#     GPIO.output (40 , GPIO.HIGH ) # Na pinie 40 ustawiamy stan 1
+#     time.sleep (2) # 2 s przerwy
+
+#     #czerwony i zółty
+#     GPIO.output (33, GPIO.HIGH)
+#     time.sleep (2)
+
+#     #zielony
+#     GPIO.output (40, GPIO.LOW)
+#     GPIO.output (33, GPIO.LOW)
+#     GPIO.output (32, GPIO.HIGH)
+#     time.sleep (2)
+
+#     GPIO.output (32, GPIO.LOW)
+#     GPIO.output (33 , GPIO.HIGH ) # Na pinie 40 ustawiamy stan 0
+#     time.sleep (2) # 2 s przerwy
+    
+
+
+# while True:
+#     if GPIO.input(26) == 0:
+#         GPIO.output(36, GPIO.HIGH)
+#     else:
+#         GPIO.output(36, GPIO.LOW)
+
+
+GPIO.setwarnings(False) # ignorowanie ostrze ż e ń
+GPIO.setmode(GPIO.BOARD) # WA Ż NY KROK -- ustawiamy jak ą numeracj ę pin ó w
+GPIO.setup (32, GPIO.OUT)
+GPIO.setup(37, GPIO.IN, pull_up_down = GPIO.PUD_UP) # deklaracja wej ś cia na pinie
+dioda = 2
+try:
+    while True: # prosta p ę tla
+        if GPIO.input(37) == 0:
+            if dioda == 1:
+                dioda = 0
+            else:
+                dioda = 1  
+            time.sleep (1)  
+
+        if dioda == 1 and GPIO.input(37) == 0:
+            GPIO.output(32, GPIO.HIGH)
+        elif dioda == 0 and GPIO.input(37) == 0:
+            GPIO.output(32, GPIO.LOW)    
+except KeyboardInterrupt:
+    print('Koniec ctrl+c')
+
+
+
+GPIO.cleanup () # na koniec programu -- sprz ą tanie
