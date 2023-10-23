@@ -1,0 +1,18 @@
+import RPi.GPIO as GPIO
+import time
+GPIO.setmode( GPIO.BOARD )
+GPIO.setwarnings( False )
+GPIO.setup(40 , GPIO.OUT )
+led = GPIO.PWM (40 , 50) # Nowa instancja PWM
+fill = 0 # Wypełnienie sygnał u PWM
+led.start(fill) # Uruchomienie sygna ł u PWM
+
+
+
+for i in range(0 ,10):
+    led.ChangeDutyCycle(fill) # Ustaw nową wartość wypełnienia
+    time.sleep(0.5)
+    fill +=10
+
+led.stop()
+GPIO.cleanup()
